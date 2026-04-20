@@ -11,7 +11,9 @@ import {
   LayoutDashboard,
   LogOut,
   MessageSquare,
+  Settings,
   UserCheck,
+  UserCircle,
   Wrench,
   Zap,
 } from "lucide-react";
@@ -33,6 +35,8 @@ const navItems = [
   { to: "/events", icon: CalendarDays, label: "Events" },
   { to: "/problems", icon: Bug, label: "Problems" },
   { to: "/skills", icon: Zap, label: "Skills" },
+  { to: "/profile", icon: UserCircle, label: "Profile" },
+  { to: "/settings", icon: Settings, label: "Settings" },
 ];
 
 const inboxItems = [

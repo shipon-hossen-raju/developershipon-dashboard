@@ -17,7 +17,28 @@ export const authApi = baseApi.injectEndpoints({
       query: () => "/auth/me",
       providesTags: ["Auth"],
     }),
+    updateProfile: b.mutation<ApiResponse<AuthUser>, FormData>({
+      query: (body) => ({ url: "/auth/profile", method: "PUT", body }),
+      invalidatesTags: ["Auth"],
+    }),
+    changePassword: b.mutation<ApiResponse<null>, FormData>({
+      query: (body) => ({ url: "/auth/password", method: "PUT", body }),
+    }),
+    forgotPassword: b.mutation<ApiResponse<null>, FormData>({
+      query: (body) => ({ url: "/auth/forgot-password", method: "POST", body }),
+    }),
+    resetPassword: b.mutation<ApiResponse<null>, FormData>({
+      query: (body) => ({ url: "/auth/reset-password", method: "POST", body }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation, useGetMeQuery } = authApi;
+export const {
+  useLoginMutation,
+  useLogoutMutation,
+  useGetMeQuery,
+  useUpdateProfileMutation,
+  useChangePasswordMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
+} = authApi;
