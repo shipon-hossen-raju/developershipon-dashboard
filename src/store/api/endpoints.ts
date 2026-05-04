@@ -15,8 +15,6 @@ import type {
   ProjectFormData,
   Service,
   ServiceFormData,
-  Skill,
-  SkillFormData,
 } from "../../types";
 import { baseApi } from "./baseApi";
 
@@ -216,35 +214,6 @@ export const problemsApi = baseApi.injectEndpoints({
   }),
 });
 
-// ─── Skills ───────────────────────────────────────────────────────────────────
-export const skillsApi = baseApi.injectEndpoints({
-  endpoints: (b) => ({
-    getSkills: b.query<ApiResponse<Skill[]>, void>({
-      query: () => "/skills",
-      providesTags: ["Skills"],
-    }),
-    createSkill: b.mutation<ApiResponse<Skill>, SkillFormData>({
-      query: (body) => ({ url: "/skills", method: "POST", body }),
-      invalidatesTags: ["Skills", "Dashboard"],
-    }),
-    updateSkill: b.mutation<
-      ApiResponse<Skill>,
-      { id: string; data: Partial<SkillFormData> }
-    >({
-      query: ({ id, data }) => ({
-        url: `/skills/${id}`,
-        method: "PUT",
-        body: data,
-      }),
-      invalidatesTags: ["Skills"],
-    }),
-    deleteSkill: b.mutation<ApiResponse<null>, string>({
-      query: (id) => ({ url: `/skills/${id}`, method: "DELETE" }),
-      invalidatesTags: ["Skills", "Dashboard"],
-    }),
-  }),
-});
-
 // ─── Messages ─────────────────────────────────────────────────────────────────
 export const messagesApi = baseApi.injectEndpoints({
   endpoints: (b) => ({
@@ -331,12 +300,6 @@ export const {
   useUpdateProblemMutation,
   useDeleteProblemMutation,
 } = problemsApi;
-export const {
-  useGetSkillsQuery,
-  useCreateSkillMutation,
-  useUpdateSkillMutation,
-  useDeleteSkillMutation,
-} = skillsApi;
 export const {
   useGetMessagesQuery,
   useMarkMessageReadMutation,

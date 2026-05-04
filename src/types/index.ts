@@ -5,7 +5,7 @@ export interface LoginCredentials {
 }
 
 export interface AuthUser {
-  _id: string;
+  id: string;
   name: string;
   email: string;
   role: string;
@@ -14,7 +14,7 @@ export interface AuthUser {
 
 export interface AuthState {
   user: AuthUser | null;
-  token: string | null;
+  accessToken: string | null;
   isAuthenticated: boolean;
   loading: boolean;
 }
@@ -36,17 +36,17 @@ export interface PaginatedResponse<T> {
 
 // ─── Project ───────────────────────────────────────────────────────────────────
 export interface Project {
-  _id: string;
+  id: string;
   title: string;
   tagline: string;
   description: string;
-  type: 'full stack' | 'backend' | 'frontend';
+  type: "full stack" | "backend" | "frontend";
   image?: string;
   liveUrl?: string;
   githubUrl?: string;
   duration: string;
   completedAt: string;
-  status: 'completed' | 'in progress' | 'maintained';
+  status: "completed" | "in progress" | "maintained";
   technologies: {
     frontend?: string[];
     backend?: string[];
@@ -60,11 +60,11 @@ export interface Project {
   updatedAt?: string;
 }
 
-export type ProjectFormData = Omit<Project, '_id' | 'createdAt' | 'updatedAt'>;
+export type ProjectFormData = Omit<Project, "id" | "createdAt" | "updatedAt">;
 
 // ─── Experience ────────────────────────────────────────────────────────────────
 export interface Experience {
-  _id: string;
+  id: string;
   companyName: string;
   link?: string;
   jobTitle: string;
@@ -76,11 +76,11 @@ export interface Experience {
   createdAt?: string;
 }
 
-export type ExperienceFormData = Omit<Experience, '_id' | 'createdAt'>;
+export type ExperienceFormData = Omit<Experience, "id" | "createdAt">;
 
 // ─── Service ───────────────────────────────────────────────────────────────────
 export interface Service {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   rules: string[];
@@ -88,11 +88,11 @@ export interface Service {
   createdAt?: string;
 }
 
-export type ServiceFormData = Omit<Service, '_id' | 'createdAt'>;
+export type ServiceFormData = Omit<Service, "id" | "createdAt">;
 
 // ─── Blog ──────────────────────────────────────────────────────────────────────
 export interface Blog {
-  _id: string;
+  id: string;
   title: string;
   slug: string;
   excerpt: string;
@@ -107,11 +107,11 @@ export interface Blog {
   updatedAt?: string;
 }
 
-export type BlogFormData = Omit<Blog, '_id' | 'createdAt' | 'updatedAt'>;
+export type BlogFormData = Omit<Blog, "id" | "createdAt" | "updatedAt">;
 
 // ─── Event ────────────────────────────────────────────────────────────────────
 export interface PortfolioEvent {
-  _id: string;
+  id: string;
   title: string;
   organizer: string;
   location: string;
@@ -125,14 +125,14 @@ export interface PortfolioEvent {
   createdAt?: string;
 }
 
-export type EventFormData = Omit<PortfolioEvent, '_id' | 'createdAt'>;
+export type EventFormData = Omit<PortfolioEvent, "id" | "createdAt">;
 
 // ─── Problem ──────────────────────────────────────────────────────────────────
 export interface Problem {
-  _id: string;
+  id: string;
   title: string;
   platform: string;
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: "easy" | "medium" | "hard";
   tags: string[];
   problem: string;
   solution: string;
@@ -142,22 +142,33 @@ export interface Problem {
   createdAt?: string;
 }
 
-export type ProblemFormData = Omit<Problem, '_id' | 'createdAt'>;
+export type ProblemFormData = Omit<Problem, "id" | "createdAt">;
 
 // ─── Skill ────────────────────────────────────────────────────────────────────
 export interface Skill {
-  _id: string;
+  id: string;
   category: string;
   title: string;
   value: number; // 0-100
   createdAt?: string;
 }
 
-export type SkillFormData = Omit<Skill, '_id' | 'createdAt'>;
+export type SkillFormData = Omit<Skill, "id" | "createdAt">;
+
+// ─── Category ────────────────────────────────────────────────────────────────────
+export interface Categories {
+  id: string;
+  title: string;
+  slug: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type CategoryFormData = Omit<Categories, "id" | "createdAt" | "updatedAt" | "slug">;
 
 // ─── Contact Message ──────────────────────────────────────────────────────────
 export interface ContactMessage {
-  _id: string;
+  id: string;
   name: string;
   email: string;
   contactNumber?: string;
@@ -169,13 +180,13 @@ export interface ContactMessage {
 
 // ─── Hire Request ─────────────────────────────────────────────────────────────
 export interface HireRequest {
-  _id: string;
+  id: string;
   name: string;
   email: string;
   phoneNumber: string;
   service: string;
   message: string;
-  status: 'pending' | 'reviewed' | 'accepted' | 'rejected';
+  status: "pending" | "reviewed" | "accepted" | "rejected";
   createdAt: string;
 }
 
@@ -208,10 +219,10 @@ export interface PaginationState {
   total: number;
 }
 
-export type ToastType = 'success' | 'error' | 'info' | 'warning';
+export type ToastType = "success" | "error" | "info" | "warning";
 
 export interface ModalState {
   isOpen: boolean;
-  mode: 'create' | 'edit' | 'view' | 'delete';
+  mode: "create" | "edit" | "view" | "delete";
   data?: unknown;
 }

@@ -1,5 +1,6 @@
 import { ApiResponse, AuthUser, LoginCredentials } from "@/types";
 import { baseApi } from "./baseApi";
+import { apiTagsTypes } from "@/constants/constant";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (b) => ({
@@ -8,7 +9,7 @@ export const authApi = baseApi.injectEndpoints({
       LoginCredentials
     >({
       query: (body) => ({ url: "/auth/login", method: "POST", body }),
-      invalidatesTags: ["Auth"],
+      invalidatesTags: [apiTagsTypes.Auth],
     }),
     logout: b.mutation<ApiResponse<null>, void>({
       query: () => ({ url: "/auth/logout", method: "POST" }),

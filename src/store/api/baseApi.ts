@@ -1,4 +1,5 @@
 import config from "@/config";
+import { apiTagsTypes } from "@/constants/constant";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { AppRootState } from "..";
 
@@ -19,18 +20,6 @@ export const baseApi = createApi({
       return headers;
     },
   }),
-  tagTypes: [
-    "Auth",
-    "Projects",
-    "Experiences",
-    "Services",
-    "Blogs",
-    "Events",
-    "Problems",
-    "Skills",
-    "Messages",
-    "HireRequests",
-    "Dashboard",
-  ],
+  tagTypes: Object.values(apiTagsTypes),
   endpoints: () => ({}),
 });

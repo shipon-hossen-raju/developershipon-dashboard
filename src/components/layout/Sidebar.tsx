@@ -4,6 +4,7 @@ import {
   Briefcase,
   Bug,
   CalendarDays,
+  ChartBarStacked,
   ChevronLeft,
   ChevronRight,
   ExternalLink,
@@ -35,6 +36,7 @@ const navItems = [
   { to: "/events", icon: CalendarDays, label: "Events" },
   { to: "/problems", icon: Bug, label: "Problems" },
   { to: "/skills", icon: Zap, label: "Skills" },
+  { to: "/categories", icon: ChartBarStacked, label: "Categories" },
   { to: "/profile", icon: UserCircle, label: "Profile" },
   { to: "/settings", icon: Settings, label: "Settings" },
 ];
@@ -59,10 +61,8 @@ export default function Sidebar() {
   const navigate = useNavigate();
   const open = useAppSelector((s) => s.ui.sidebarOpen);
   const user = useAppSelector((s) => s.auth.user);
-
   const { data: msgsData } = useGetMessagesQuery();
   const { data: hireData } = useGetHireRequestsQuery();
-
   const unreadMessages = msgsData?.data?.filter((m) => !m.read).length ?? 0;
   const pendingHire =
     hireData?.data?.filter((h) => h.status === "pending").length ?? 0;
@@ -87,8 +87,13 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="flex items-center h-16 px-4 border-b border-white/5 shrink-0">
         <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shrink-0 shadow-lg shadow-primary/30">
-          {/* <span className="text-white font-bold text-sm">S</span> */}
-          <img src={`${user.avatar}`} alt="logo" className="w-6 h-6" />
+          {user?.avatar ? (
+            <img src={`${user?.avatar}`} alt="logo" className="w-6 h-6" />
+          ) : (
+            <span className="text-white font-bold text-sm">
+              {user?.name[0]}
+            </span>
+          )}
         </div>
         <AnimatePresence>
           {open && (

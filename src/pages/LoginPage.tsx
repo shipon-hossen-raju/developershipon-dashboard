@@ -11,7 +11,10 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
   const [showPwd, setShowPwd] = useState(false);
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({
+    email: "msshipon234@gmail.com",
+    password: "Admin@123456",
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,20 +28,11 @@ export default function LoginPage() {
       if (res.success) {
         // if (true) {
         dispatch(
-          setCredentials({ user: res.data.user, token: res.data.token }),
+          setCredentials({
+            user: res.data.user,
+            accessToken: res.data.accessToken,
+          }),
         );
-        // dispatch(
-        //   setCredentials({
-        //     user: {
-        //       _id: "1",
-        //       name: "John Doe",
-        //       email: "admin@example.com",
-        //       role: "admin",
-        //       avatar: "",
-        //     },
-        //     token: "token",
-        //   }),
-        // );
         toast.success("Welcome back!");
         navigate("/");
       }
@@ -77,7 +71,7 @@ export default function LoginPage() {
               </label>
               <input
                 type="email"
-                placeholder="admin@example.com"
+                placeholder="admin@gmail.com"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 className="dash-input bg-slate-800/60 border-border-dark text-white placeholder-slate-500"

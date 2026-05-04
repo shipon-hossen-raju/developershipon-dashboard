@@ -1,29 +1,29 @@
+import { BookOpen, Eye, EyeOff, Pencil, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { Plus, Pencil, Trash2, BookOpen, Eye, EyeOff } from "lucide-react";
 import toast from "react-hot-toast";
 import {
-  useGetBlogsQuery,
-  useCreateBlogMutation,
-  useUpdateBlogMutation,
-  useDeleteBlogMutation,
-  useToggleBlogPublishedMutation,
-} from "../store/api/endpoints";
+  FormField,
+  Input,
+  Switch,
+  TagInput,
+  Textarea,
+} from "../components/forms";
 import {
-  Modal,
-  ConfirmDialog,
   Badge,
+  ConfirmDialog,
   EmptyState,
+  Modal,
   PageHeader,
   PageLoader,
 } from "../components/ui";
 import DataTable from "../components/ui/DataTable";
 import {
-  FormField,
-  Input,
-  Textarea,
-  TagInput,
-  Switch,
-} from "../components/forms";
+  useCreateBlogMutation,
+  useDeleteBlogMutation,
+  useGetBlogsQuery,
+  useToggleBlogPublishedMutation,
+  useUpdateBlogMutation,
+} from "../store/api/endpoints";
 import type { Blog, BlogFormData } from "../types";
 
 const empty: BlogFormData = {
@@ -89,7 +89,7 @@ export default function BlogsPage() {
         await create(form).unwrap();
         toast.success("Blog created!");
       } else if (modal.data) {
-        await update({ id: modal.data._id, data: form }).unwrap();
+        await update({ id: modal.data.id, data: form }).unwrap();
         toast.success("Updated!");
       }
       setModal({ open: false, mode: "create" });
@@ -187,7 +187,7 @@ export default function BlogsPage() {
       render: (row: Blog) => (
         <div className="flex gap-1">
           <button
-            onClick={() => togglePublish(row._id)}
+            onClick={() => togglePublish(row.id)}
             title={row.published ? "Unpublish" : "Publish"}
             className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-primary hover:bg-primary/10 transition-colors"
           >
@@ -200,7 +200,7 @@ export default function BlogsPage() {
             <Pencil size={13} />
           </button>
           <button
-            onClick={() => setDeleteId(row._id)}
+            onClick={() => setDeleteId(row.id)}
             className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
           >
             <Trash2 size={13} />
@@ -227,7 +227,7 @@ export default function BlogsPage() {
       <DataTable
         columns={columns}
         data={items as unknown as Record<string, unknown>[]}
-        keyField="_id"
+        keyField="id"
         searchable
         searchKeys={["title", "slug"]}
         emptyState={

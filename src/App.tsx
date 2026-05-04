@@ -15,6 +15,7 @@ import ProjectsPage from "./pages/ProjectsPage";
 import ServicesPage from "./pages/ServicesPage";
 import SettingsPage from "./pages/SettingsPage";
 import SkillsPage from "./pages/SkillsPage";
+import CategoriesPage from "./pages/CategoriesPage";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAppSelector((s) => s.auth.isAuthenticated);
@@ -59,6 +60,7 @@ export default function App() {
         <Route path="events" element={<EventsPage />} />
         <Route path="problems" element={<ProblemsPage />} />
         <Route path="skills" element={<SkillsPage />} />
+        <Route path="categories" element={<CategoriesPage />} />
         <Route path="profile" element={<ProfilePage />} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="messages" element={<MessagesPage />} />
