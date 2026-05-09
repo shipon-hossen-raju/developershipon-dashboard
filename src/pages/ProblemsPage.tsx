@@ -5,6 +5,7 @@ import {
   FormField,
   Input,
   Select,
+  Switch,
   TagInput,
   Textarea,
 } from "../components/forms";
@@ -22,7 +23,7 @@ import {
   useDeleteProblemMutation,
   useGetProblemsQuery,
   useUpdateProblemMutation,
-} from "../store/api/endpoints";
+} from "../store/api/problems.api";
 import type { Problem, ProblemFormData } from "../types";
 
 const DIFF_OPTIONS = [
@@ -42,6 +43,7 @@ const empty: ProblemFormData = {
   codeSnippet: "",
   solvedAt: new Date().toISOString().slice(0, 10),
   link: "",
+  isActive: true,
 };
 
 export default function ProblemsPage() {
@@ -74,6 +76,7 @@ export default function ProblemsPage() {
       codeSnippet: p.codeSnippet ?? "",
       solvedAt: p.solvedAt?.slice(0, 10) ?? "",
       link: p.link ?? "",
+      isActive: p.isActive,
     });
     setModal({ open: true, mode: "edit", data: p });
   };
@@ -108,7 +111,13 @@ export default function ProblemsPage() {
     }
   };
 
-  const columns = [
+  const columns: {
+    key: string;
+    label: string;
+    sortable?: boolean;
+    width?: string;
+    render: (row: Problem) => React.ReactNode;
+  }[] = [
     {
       key: "title",
       label: "Problem",
@@ -131,7 +140,7 @@ export default function ProblemsPage() {
     },
     {
       key: "tags",
-      label: "Tags",
+      label: "Active",
       render: (row: Problem) => (
         <div className="flex flex-wrap gap-1">
           {row.tags.slice(0, 3).map((t) => (
@@ -316,6 +325,14 @@ export default function ProblemsPage() {
             <TagInput
               tags={form.tags}
               onChange={(t) => setForm({ ...form, tags: t })}
+            />
+          </FormField>
+
+          <FormField label="Active">
+            <Switch
+              checked={form.isActive}
+              onChange={(v) => setForm({ ...form, isActive: v })}
+              label="Active"
             />
           </FormField>
         </div>

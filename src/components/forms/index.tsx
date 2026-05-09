@@ -92,25 +92,62 @@ export function TagInput({ tags, onChange, placeholder = 'Add tag, press Enter' 
   );
 }
 
-// Switch / Toggle
 interface SwitchProps {
   checked: boolean;
   onChange: (v: boolean) => void;
   label?: string;
 }
+
 export function Switch({ checked, onChange, label }: SwitchProps) {
   return (
-    <label className="flex items-center gap-3 cursor-pointer select-none">
+    <label
+      onClick={() => onChange(!checked)}
+      className="flex items-center gap-3 cursor-pointer select-none"
+    >
       <div
-        onClick={() => onChange(!checked)}
-        className={clsx('relative w-10 h-5.5 rounded-full transition-colors duration-200 cursor-pointer', checked ? 'bg-primary' : 'bg-slate-300 dark:bg-slate-600')}
-        style={{ height: '22px' }}
+        className={clsx(
+          "relative w-10 h-5.5 rounded-full transition-colors duration-200",
+          checked ? "bg-primary" : "bg-slate-300 dark:bg-slate-600",
+        )}
+        style={{ height: "22px" }}
       >
-        <div className={clsx('absolute top-0.5 w-4.5 h-4.5 rounded-full bg-white shadow transition-transform duration-200', checked ? 'translate-x-[22px]' : 'translate-x-0.5')}
-          style={{ width: '18px', height: '18px' }}
+        <div
+          className={clsx(
+            "absolute top-0.5 w-4.5 h-4.5 rounded-full bg-white shadow transition-transform duration-200",
+            checked ? "translate-x-[22px]" : "translate-x-0.5",
+          )}
+          style={{ width: "18px", height: "18px" }}
         />
       </div>
-      {label && <span className="text-sm font-medium text-text-main dark:text-text-main-dark">{label}</span>}
+
+      {label && (
+        <span className="text-sm font-medium text-text-main dark:text-text-main-dark">
+          {label}
+        </span>
+      )}
     </label>
   );
 }
+
+// // Switch / Toggle
+// interface SwitchProps {
+//   checked: boolean;
+//   onChange: (v: boolean) => void;
+//   label?: string;
+// }
+// export function Switch({ checked, onChange, label }: SwitchProps) {
+//   return (
+//     <label className="flex items-center gap-3 cursor-pointer select-none">
+//       <div
+//         onClick={() => onChange(!checked)}
+//         className={clsx('relative w-10 h-5.5 rounded-full transition-colors duration-200 cursor-pointer', checked ? 'bg-primary' : 'bg-slate-300 dark:bg-slate-600')}
+//         style={{ height: '22px' }}
+//       >
+//         <div className={clsx('absolute top-0.5 w-4.5 h-4.5 rounded-full bg-white shadow transition-transform duration-200', checked ? 'translate-x-[22px]' : 'translate-x-0.5')}
+//           style={{ width: '18px', height: '18px' }}
+//         />
+//       </div>
+//       {label && <span className="text-sm font-medium text-text-main dark:text-text-main-dark">{label}</span>}
+//     </label>
+//   );
+// }

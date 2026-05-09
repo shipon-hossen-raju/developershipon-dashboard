@@ -185,35 +185,6 @@ export const eventsApi = baseApi.injectEndpoints({
   }),
 });
 
-// ─── Problems ─────────────────────────────────────────────────────────────────
-export const problemsApi = baseApi.injectEndpoints({
-  endpoints: (b) => ({
-    getProblems: b.query<ApiResponse<Problem[]>, void>({
-      query: () => "/problems",
-      providesTags: ["Problems"],
-    }),
-    createProblem: b.mutation<ApiResponse<Problem>, ProblemFormData>({
-      query: (body) => ({ url: "/problems", method: "POST", body }),
-      invalidatesTags: ["Problems", "Dashboard"],
-    }),
-    updateProblem: b.mutation<
-      ApiResponse<Problem>,
-      { id: string; data: Partial<ProblemFormData> }
-    >({
-      query: ({ id, data }) => ({
-        url: `/problems/${id}`,
-        method: "PUT",
-        body: data,
-      }),
-      invalidatesTags: ["Problems"],
-    }),
-    deleteProblem: b.mutation<ApiResponse<null>, string>({
-      query: (id) => ({ url: `/problems/${id}`, method: "DELETE" }),
-      invalidatesTags: ["Problems", "Dashboard"],
-    }),
-  }),
-});
-
 // ─── Messages ─────────────────────────────────────────────────────────────────
 export const messagesApi = baseApi.injectEndpoints({
   endpoints: (b) => ({
@@ -294,12 +265,7 @@ export const {
   useUpdateEventMutation,
   useDeleteEventMutation,
 } = eventsApi;
-export const {
-  useGetProblemsQuery,
-  useCreateProblemMutation,
-  useUpdateProblemMutation,
-  useDeleteProblemMutation,
-} = problemsApi;
+
 export const {
   useGetMessagesQuery,
   useMarkMessageReadMutation,

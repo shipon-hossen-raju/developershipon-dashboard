@@ -128,6 +128,20 @@ export interface PortfolioEvent {
 export type EventFormData = Omit<PortfolioEvent, "id" | "createdAt">;
 
 // ─── Problem ──────────────────────────────────────────────────────────────────
+// export interface Problem {
+//   id: string;
+//   title: string;
+//   platform: string;
+//   difficulty: "easy" | "medium" | "hard";
+//   tags: string[];
+//   problem: string;
+//   solution: string;
+//   codeSnippet?: string;
+//   solvedAt: string;
+//   link?: string;
+//   createdAt?: string;
+//   isActive: boolean;
+// }
 export interface Problem {
   id: string;
   title: string;
@@ -136,13 +150,16 @@ export interface Problem {
   tags: string[];
   problem: string;
   solution: string;
-  codeSnippet?: string;
+  codeSnippet: string;
   solvedAt: string;
-  link?: string;
-  createdAt?: string;
+  link: string;
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+  isActive: boolean;
 }
 
-export type ProblemFormData = Omit<Problem, "id" | "createdAt">;
+export type ProblemFormData = Omit<Problem, "id" | "createdAt" | "order" | "updatedAt">;
 
 // ─── Skill ────────────────────────────────────────────────────────────────────
 export interface Skill {
@@ -164,7 +181,10 @@ export interface Categories {
   updatedAt: string;
 }
 
-export type CategoryFormData = Omit<Categories, "id" | "createdAt" | "updatedAt" | "slug">;
+export type CategoryFormData = Omit<
+  Categories,
+  "id" | "createdAt" | "updatedAt" | "slug"
+>;
 
 // ─── Contact Message ──────────────────────────────────────────────────────────
 export interface ContactMessage {
