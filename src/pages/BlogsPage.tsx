@@ -114,99 +114,123 @@ export default function BlogsPage() {
       key: "title",
       label: "Title",
       sortable: true,
-      render: (row: Blog) => (
-        <div>
-          <p className="font-semibold text-text-main dark:text-text-main-dark text-sm line-clamp-1">
-            {row.title}
-          </p>
-          <p className="text-xs text-text-muted">{row.slug}</p>
-        </div>
-      ),
+      render: (row: unknown) => {
+        const blog = row as Blog;
+
+        return (
+          <div>
+            <p className="font-semibold text-text-main dark:text-text-main-dark text-sm line-clamp-1">
+              {blog.title}
+            </p>
+            <p className="text-xs text-text-muted">{blog.slug}</p>
+          </div>
+        );
+      },
     },
     {
       key: "tags",
       label: "Tags",
-      render: (row: Blog) => (
-        <div className="flex flex-wrap gap-1">
-          {row.tags.slice(0, 3).map((t) => (
-            <span
-              key={t}
-              className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-      ),
+      render: (row: unknown) => {
+        const blog = row as Blog;
+
+        return (
+          <div className="flex flex-wrap gap-1">
+            {blog.tags.slice(0, 3).map((t) => (
+              <span
+                key={t}
+                className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        );
+      },
     },
     {
       key: "readTime",
       label: "Read Time",
-      render: (row: Blog) => (
-        <span className="text-xs text-text-muted">{row.readTime} min</span>
-      ),
+      render: (row: unknown) => {
+        const blog = row as Blog;
+
+        return (
+          <span className="text-xs text-text-muted">{blog.readTime} min</span>
+        );
+      },
     },
     {
       key: "featured",
       label: "Featured",
-      render: (row: Blog) =>
-        row.featured ? (
+      render: (row: unknown) => {
+        const blog = row as Blog;
+
+        return blog.featured ? (
           <Badge label="Yes" variant="amber" />
         ) : (
           <Badge label="No" variant="gray" />
-        ),
+        );
+      },
     },
     {
       key: "published",
       label: "Status",
-      render: (row: Blog) =>
-        row.published ? (
+      render: (row: unknown) => {
+        const blog = row as Blog;
+        return blog.published ? (
           <Badge label="Published" variant="green" dot />
         ) : (
           <Badge label="Draft" variant="gray" dot />
-        ),
+        );
+      },
     },
     {
       key: "publishedAt",
       label: "Date",
       sortable: true,
-      render: (row: Blog) => (
-        <span className="text-xs text-text-muted">
-          {new Date(row.publishedAt).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-          })}
-        </span>
-      ),
+      render: (row: unknown) => {
+        const blog = row as Blog;
+
+        return (
+          <span className="text-xs text-text-muted">
+            {new Date(blog.publishedAt).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </span>
+        );
+      },
     },
     {
       key: "actions",
       label: "",
       width: "100px",
-      render: (row: Blog) => (
-        <div className="flex gap-1">
-          <button
-            onClick={() => togglePublish(row.id)}
-            title={row.published ? "Unpublish" : "Publish"}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-primary hover:bg-primary/10 transition-colors"
-          >
-            {row.published ? <EyeOff size={13} /> : <Eye size={13} />}
-          </button>
-          <button
-            onClick={() => openEdit(row)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-info hover:bg-info/10 transition-colors"
-          >
-            <Pencil size={13} />
-          </button>
-          <button
-            onClick={() => setDeleteId(row.id)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
-          >
-            <Trash2 size={13} />
-          </button>
-        </div>
-      ),
+      render: (row: unknown) => {
+        const blog = row as Blog;
+        return (
+          <div className="flex gap-1">
+            <button
+              onClick={() => togglePublish(blog.id)}
+              title={blog.published ? "Unpublish" : "Publish"}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-primary hover:bg-primary/10 transition-colors"
+            >
+              {blog.published ? <EyeOff size={13} /> : <Eye size={13} />}
+            </button>
+            <button
+              onClick={() => openEdit(blog)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-info hover:bg-info/10 transition-colors"
+            >
+              <Pencil size={13} />
+            </button>
+            <button
+              onClick={() => setDeleteId(blog.id)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
+            >
+              <Trash2 size={13} />
+            </button>
+          </div>
+        );
+      },
     },
   ];
 

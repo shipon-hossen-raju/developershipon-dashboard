@@ -1,23 +1,23 @@
-import { useState } from "react";
-import { Plus, Pencil, Trash2, Zap } from "lucide-react";
-import toast from "react-hot-toast";
-import {
-  Modal,
-  ConfirmDialog,
-  EmptyState,
-  PageHeader,
-  PageLoader,
-} from "../components/ui";
-import DataTable from "../components/ui/DataTable";
-import { FormField, Input, Select } from "../components/forms";
-import type { Skill, SkillFormData } from "../types";
-import clsx from "clsx";
 import {
   useCreateSkillMutation,
   useDeleteSkillMutation,
   useGetSkillsQuery,
   useUpdateSkillMutation,
 } from "@/store/api/skills.api";
+import clsx from "clsx";
+import { Pencil, Plus, Trash2, Zap } from "lucide-react";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { FormField, Input, Select } from "../components/forms";
+import {
+  ConfirmDialog,
+  EmptyState,
+  Modal,
+  PageHeader,
+  PageLoader,
+} from "../components/ui";
+import DataTable from "../components/ui/DataTable";
+import type { Skill, SkillFormData } from "../types";
 
 const CATEGORIES = [
   { value: "Languages", label: "Languages" },
@@ -102,67 +102,99 @@ export default function SkillsPage() {
       key: "title",
       label: "Skill",
       sortable: true,
-      render: (row: Skill) => (
-        <p className="font-semibold text-text-main dark:text-text-main-dark text-sm">
-          {row.title}
-        </p>
-      ),
+      render: (row: unknown) => {
+        const skill = row as Skill;
+
+        return (
+          <p className="font-semibold text-text-main dark:text-text-main-dark text-sm line-clamp-1">
+            {skill.title}
+          </p>
+        );
+      },
     },
-    { key: "category", label: "Category", sortable: true },
+
+    {
+      key: "category",
+      label: "Category",
+      sortable: true,
+      render: (row: unknown) => {
+        const skill = row as Skill;
+
+        return (
+          <span className="text-xs text-text-muted">{skill.category}</span>
+        );
+      },
+    },
+
     {
       key: "value",
       label: "Proficiency",
-      render: (row: Skill) => (
-        <div className="flex items-center gap-3">
-          <div className="flex-1 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden max-w-[100px]">
-            <div
-              className={clsx("h-full rounded-full", getLevelColor(row.value))}
-              style={{ width: `${row.value}%` }}
-            />
+      render: (row: unknown) => {
+        const skill = row as Skill;
+
+        return (
+          <div className="flex items-center gap-3">
+            <div className="flex-1 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden max-w-[100px]">
+              <div
+                className={clsx(
+                  "h-full rounded-full",
+                  getLevelColor(skill.value),
+                )}
+                style={{ width: `${skill.value}%` }}
+              />
+            </div>
+
+            <span className="text-xs text-text-muted w-8">{skill.value}%</span>
+
+            <span
+              className={clsx(
+                "text-[10px] font-semibold px-1.5 py-0.5 rounded",
+                getLevelColor(skill.value)
+                  .replace("bg-", "bg-")
+                  .replace("-500", "-500/10"),
+                "text-current",
+              )}
+              style={{
+                color:
+                  skill.value >= 80
+                    ? "#22c55e"
+                    : skill.value >= 60
+                      ? "#3b82f6"
+                      : "#f59e0b",
+              }}
+            >
+              {getLevel(skill.value)}
+            </span>
           </div>
-          <span className="text-xs text-text-muted w-8">{row.value}%</span>
-          <span
-            className={clsx(
-              "text-[10px] font-semibold px-1.5 py-0.5 rounded",
-              getLevelColor(row.value)
-                .replace("bg-", "bg-")
-                .replace("-500", "-500/10"),
-              "text-current",
-            )}
-            style={{
-              color:
-                row.value >= 80
-                  ? "#22c55e"
-                  : row.value >= 60
-                    ? "#3b82f6"
-                    : "#f59e0b",
-            }}
-          >
-            {getLevel(row.value)}
-          </span>
-        </div>
-      ),
+        );
+      },
     },
+
     {
       key: "actions",
       label: "",
       width: "80px",
-      render: (row: Skill) => (
-        <div className="flex gap-1">
-          <button
-            onClick={() => openEdit(row)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-info hover:bg-info/10 transition-colors"
-          >
-            <Pencil size={13} />
-          </button>
-          <button
-            onClick={() => setDeleteId(row.id)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
-          >
-            <Trash2 size={13} />
-          </button>
-        </div>
-      ),
+      render: (row: unknown) => {
+        const skill = row as Skill;
+
+        return (
+          <div className="flex gap-1">
+            <button
+              onClick={() => openEdit(skill)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-info hover:bg-info/10 transition-colors"
+            >
+              <Pencil size={13} />
+            </button>
+
+            <button
+              onClick={() => setDeleteId(skill.id)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
+            >
+              <Trash2 size={13} />
+            </button>
+          </div>
+        );
+      },
     },
   ];
 

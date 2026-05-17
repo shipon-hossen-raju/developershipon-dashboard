@@ -111,84 +111,109 @@ export default function ProblemsPage() {
     }
   };
 
-  const columns: {
-    key: string;
-    label: string;
-    sortable?: boolean;
-    width?: string;
-    render: (row: Problem) => React.ReactNode;
-  }[] = [
+  const columns = [
     {
       key: "title",
       label: "Problem",
       sortable: true,
-      render: (row: Problem) => (
-        <div>
-          <p className="font-semibold text-text-main dark:text-text-main-dark text-sm">
-            {row.title}
-          </p>
-          <p className="text-xs text-text-muted">{row.platform}</p>
-        </div>
-      ),
+      render: (row: unknown) => {
+        const problem = row as Problem;
+
+        return (
+          <div>
+            <p className="font-semibold text-text-main dark:text-text-main-dark text-sm line-clamp-1">
+              {problem.title}
+            </p>
+
+            <p className="text-xs text-text-muted line-clamp-1">
+              {problem.platform}
+            </p>
+          </div>
+        );
+      },
     },
+
     {
       key: "difficulty",
       label: "Difficulty",
-      render: (row: Problem) => (
-        <Badge label={row.difficulty} variant={diffVariant[row.difficulty]} />
-      ),
+      render: (row: unknown) => {
+        const problem = row as Problem;
+
+        return (
+          <Badge
+            label={problem.difficulty}
+            variant={diffVariant[problem.difficulty]}
+          />
+        );
+      },
     },
+
     {
       key: "tags",
       label: "Active",
-      render: (row: Problem) => (
-        <div className="flex flex-wrap gap-1">
-          {row.tags.slice(0, 3).map((t) => (
-            <span
-              key={t}
-              className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-      ),
+      render: (row: unknown) => {
+        const problem = row as Problem;
+
+        return (
+          <div className="flex flex-wrap gap-1">
+            {problem.tags.slice(0, 3).map((t) => (
+              <span
+                key={t}
+                className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        );
+      },
     },
+
     {
       key: "solvedAt",
       label: "Solved",
       sortable: true,
-      render: (row: Problem) => (
-        <span className="text-xs text-text-muted">
-          {row.solvedAt
-            ? new Date(row.solvedAt).toLocaleDateString("en-US", {
-                month: "short",
-                year: "numeric",
-              })
-            : "—"}
-        </span>
-      ),
+      render: (row: unknown) => {
+        const problem = row as Problem;
+
+        return (
+          <span className="text-xs text-text-muted">
+            {problem.solvedAt
+              ? new Date(problem.solvedAt).toLocaleDateString("en-US", {
+                  month: "short",
+                  year: "numeric",
+                })
+              : "—"}
+          </span>
+        );
+      },
     },
+
     {
       key: "actions",
       label: "",
       width: "80px",
-      render: (row: Problem) => (
-        <div className="flex gap-1">
-          <button
-            onClick={() => openEdit(row)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-info hover:bg-info/10 transition-colors"
-          >
-            <Pencil size={13} />
-          </button>
-          <button
-            onClick={() => setDeleteId(row.id)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
-          >
-            <Trash2 size={13} />
-          </button>
-        </div>
-      ),
+      render: (row: unknown) => {
+        const problem = row as Problem;
+
+        return (
+          <div className="flex gap-1">
+            <button
+              onClick={() => openEdit(problem)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-info hover:bg-info/10 transition-colors"
+            >
+              <Pencil size={13} />
+            </button>
+
+            <button
+              onClick={() => setDeleteId(problem.id)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
+            >
+              <Trash2 size={13} />
+            </button>
+          </div>
+        );
+      },
     },
   ];
 

@@ -5,31 +5,81 @@ import { apiTagsTypes } from "@/constants/constant";
 export const authApi = baseApi.injectEndpoints({
   endpoints: (b) => ({
     login: b.mutation<
-      ApiResponse<{ user: AuthUser; token: string }>,
+      ApiResponse<{ user: AuthUser; accessToken: string }>,
       LoginCredentials
     >({
-      query: (body) => ({ url: "/auth/login", method: "POST", body }),
+      query: (body) => ({
+        url: "/auth/login",
+        method: "POST",
+        body,
+      }),
       invalidatesTags: [apiTagsTypes.Auth],
     }),
+
     logout: b.mutation<ApiResponse<null>, void>({
-      query: () => ({ url: "/auth/logout", method: "POST" }),
+      query: () => ({
+        url: "/auth/logout",
+        method: "POST",
+      }),
     }),
+
     getMe: b.query<ApiResponse<AuthUser>, void>({
       query: () => "/auth/me",
-      providesTags: ["Auth"],
+      providesTags: [apiTagsTypes.Auth],
     }),
+
+    // FormData is correct here because file upload exists
     updateProfile: b.mutation<ApiResponse<AuthUser>, FormData>({
-      query: (body) => ({ url: "/auth/profile", method: "PUT", body }),
-      invalidatesTags: ["Auth"],
+      query: (body) => ({
+        url: "/auth/profile",
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: [apiTagsTypes.Auth],
     }),
-    changePassword: b.mutation<ApiResponse<null>, FormData>({
-      query: (body) => ({ url: "/auth/password", method: "PUT", body }),
+
+    // Plain object, NOT FormData
+    changePassword: b.mutation<
+      ApiResponse<null>,
+      {
+        currentPassword: string;
+        newPassword: string;
+      }
+    >({
+      query: (body) => ({
+        url: "/auth/password",
+        method: "PUT",
+        body,
+      }),
     }),
-    forgotPassword: b.mutation<ApiResponse<null>, FormData>({
-      query: (body) => ({ url: "/auth/forgot-password", method: "POST", body }),
+
+    // Plain object
+    forgotPassword: b.mutation<
+      ApiResponse<null>,
+      {
+        email: string;
+      }
+    >({
+      query: (body) => ({
+        url: "/auth/forgot-password",
+        method: "POST",
+        body,
+      }),
     }),
-    resetPassword: b.mutation<ApiResponse<null>, FormData>({
-      query: (body) => ({ url: "/auth/reset-password", method: "POST", body }),
+
+    // Plain object
+    resetPassword: b.mutation<
+      ApiResponse<null>,
+      {
+        token: string;
+        newPassword: string;
+      }
+    >({
+      query: (body) => ({
+        url: "/auth/reset-password",
+        method: "POST",
+        body,
+      }),
     }),
   }),
 });
@@ -43,3 +93,49 @@ export const {
   useForgotPasswordMutation,
   useResetPasswordMutation,
 } = authApi;
+
+// import { ApiResponse, AuthUser, LoginCredentials } from "@/types";
+// import { baseApi } from "./baseApi";
+// import { apiTagsTypes } from "@/constants/constant";
+
+// export const authApi = baseApi.injectEndpoints({
+//   endpoints: (b) => ({
+//     login: b.mutation<
+//       ApiResponse<{ user: AuthUser; token: string }>,
+//       LoginCredentials
+//     >({
+//       query: (body) => ({ url: "/auth/login", method: "POST", body }),
+//       invalidatesTags: [apiTagsTypes.Auth],
+//     }),
+//     logout: b.mutation<ApiResponse<null>, void>({
+//       query: () => ({ url: "/auth/logout", method: "POST" }),
+//     }),
+//     getMe: b.query<ApiResponse<AuthUser>, void>({
+//       query: () => "/auth/me",
+//       providesTags: ["Auth"],
+//     }),
+//     updateProfile: b.mutation<ApiResponse<AuthUser>, FormData>({
+//       query: (body) => ({ url: "/auth/profile", method: "PUT", body }),
+//       invalidatesTags: ["Auth"],
+//     }),
+//     changePassword: b.mutation<ApiResponse<null>, FormData>({
+//       query: (body) => ({ url: "/auth/password", method: "PUT", body }),
+//     }),
+//     forgotPassword: b.mutation<ApiResponse<null>, FormData>({
+//       query: (body) => ({ url: "/auth/forgot-password", method: "POST", body }),
+//     }),
+//     resetPassword: b.mutation<ApiResponse<null>, FormData>({
+//       query: (body) => ({ url: "/auth/reset-password", method: "POST", body }),
+//     }),
+//   }),
+// });
+
+// export const {
+//   useLoginMutation,
+//   useLogoutMutation,
+//   useGetMeQuery,
+//   useUpdateProfileMutation,
+//   useChangePasswordMutation,
+//   useForgotPasswordMutation,
+//   useResetPasswordMutation,
+// } = authApi;

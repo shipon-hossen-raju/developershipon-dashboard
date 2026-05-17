@@ -56,88 +56,129 @@ export default function MessagesPage() {
       key: "read",
       label: "",
       width: "40px",
-      render: (row: ContactMessage) => (
-        <div
-          className={`w-2 h-2 rounded-full mx-auto ${row.read ? "bg-transparent" : "bg-primary"}`}
-        />
-      ),
+      render: (row: unknown) => {
+        const message = row as ContactMessage;
+
+        return (
+          <div
+            className={`w-2 h-2 rounded-full mx-auto ${
+              message.read ? "bg-transparent" : "bg-primary"
+            }`}
+          />
+        );
+      },
     },
+
     {
       key: "name",
       label: "From",
       sortable: true,
-      render: (row: ContactMessage) => (
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-sm shrink-0">
-            {row.name[0].toUpperCase()}
+      render: (row: unknown) => {
+        const message = row as ContactMessage;
+
+        return (
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-sm shrink-0">
+              {message.name[0].toUpperCase()}
+            </div>
+
+            <div>
+              <p
+                className={`text-sm ${
+                  !message.read
+                    ? "font-bold text-text-main dark:text-text-main-dark"
+                    : "font-medium text-text-muted dark:text-text-muted-dark"
+                }`}
+              >
+                {message.name}
+              </p>
+
+              <p className="text-xs text-text-muted line-clamp-1">
+                {message.email}
+              </p>
+            </div>
           </div>
-          <div>
-            <p
-              className={`text-sm ${!row.read ? "font-bold text-text-main dark:text-text-main-dark" : "font-medium text-text-muted dark:text-text-muted-dark"}`}
-            >
-              {row.name}
-            </p>
-            <p className="text-xs text-text-muted">{row.email}</p>
-          </div>
-        </div>
-      ),
+        );
+      },
     },
+
     {
       key: "subject",
       label: "Subject",
       sortable: true,
-      render: (row: ContactMessage) => (
-        <p
-          className={`text-sm truncate max-w-[200px] ${!row.read ? "font-semibold" : ""}`}
-        >
-          {row.subject}
-        </p>
-      ),
+      render: (row: unknown) => {
+        const message = row as ContactMessage;
+
+        return (
+          <p
+            className={`text-sm truncate max-w-[200px] ${
+              !message.read ? "font-semibold" : ""
+            }`}
+          >
+            {message.subject}
+          </p>
+        );
+      },
     },
+
     {
       key: "read",
       label: "Status",
-      render: (row: ContactMessage) =>
-        row.read ? (
+      render: (row: unknown) => {
+        const message = row as ContactMessage;
+
+        return message.read ? (
           <Badge label="Read" variant="gray" />
         ) : (
           <Badge label="Unread" variant="green" dot />
-        ),
+        );
+      },
     },
+
     {
       key: "createdAt",
       label: "Received",
       sortable: true,
-      render: (row: ContactMessage) => (
-        <span className="text-xs text-text-muted">
-          {new Date(row.createdAt).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-          })}
-        </span>
-      ),
+      render: (row: unknown) => {
+        const message = row as ContactMessage;
+
+        return (
+          <span className="text-xs text-text-muted">
+            {new Date(message.createdAt).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </span>
+        );
+      },
     },
+
     {
       key: "actions",
       label: "",
       width: "80px",
-      render: (row: ContactMessage) => (
-        <div className="flex gap-1">
-          <button
-            onClick={() => handleView(row)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-primary hover:bg-primary/10 transition-colors"
-          >
-            <Mail size={13} />
-          </button>
-          <button
-            onClick={() => setDeleteId(row.id)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
-          >
-            <Trash2 size={13} />
-          </button>
-        </div>
-      ),
+      render: (row: unknown) => {
+        const message = row as ContactMessage;
+
+        return (
+          <div className="flex gap-1">
+            <button
+              onClick={() => handleView(message)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-primary hover:bg-primary/10 transition-colors"
+            >
+              <Mail size={13} />
+            </button>
+
+            <button
+              onClick={() => setDeleteId(message.id)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
+            >
+              <Trash2 size={13} />
+            </button>
+          </div>
+        );
+      },
     },
   ];
 

@@ -95,62 +95,83 @@ export default function ServicesPage() {
       key: "title",
       label: "Title",
       sortable: true,
-      render: (row: Service) => (
-        <p className="font-semibold text-text-main dark:text-text-main-dark text-sm">
-          {row.title}
-        </p>
-      ),
+      render: (row: unknown) => {
+        const service = row as Service;
+
+        return (
+          <p className="font-semibold text-text-main dark:text-text-main-dark text-sm line-clamp-1">
+            {service.title}
+          </p>
+        );
+      },
     },
+
     {
       key: "description",
       label: "Description",
-      render: (row: Service) => (
-        <p className="text-xs text-text-muted dark:text-text-muted-dark line-clamp-2 max-w-xs">
-          {row.description}
-        </p>
-      ),
+      render: (row: unknown) => {
+        const service = row as Service;
+
+        return (
+          <p className="text-xs text-text-muted dark:text-text-muted-dark line-clamp-2 max-w-xs">
+            {service.description}
+          </p>
+        );
+      },
     },
+
     {
       key: "rules",
       label: "Technologies",
-      render: (row: Service) => (
-        <div className="flex flex-wrap gap-1">
-          {row.rules.slice(0, 4).map((r) => (
-            <span
-              key={r}
-              className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium"
-            >
-              {r}
-            </span>
-          ))}
-          {row.rules.length > 4 && (
-            <span className="text-[10px] text-text-muted">
-              +{row.rules.length - 4}
-            </span>
-          )}
-        </div>
-      ),
+      render: (row: unknown) => {
+        const service = row as Service;
+
+        return (
+          <div className="flex flex-wrap gap-1">
+            {service.rules.slice(0, 4).map((r) => (
+              <span
+                key={r}
+                className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium"
+              >
+                {r}
+              </span>
+            ))}
+
+            {service.rules.length > 4 && (
+              <span className="text-[10px] text-text-muted">
+                +{service.rules.length - 4}
+              </span>
+            )}
+          </div>
+        );
+      },
     },
+
     {
       key: "actions",
       label: "",
       width: "80px",
-      render: (row: Service) => (
-        <div className="flex gap-1">
-          <button
-            onClick={() => openEdit(row)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-info hover:bg-info/10 transition-colors"
-          >
-            <Pencil size={13} />
-          </button>
-          <button
-            onClick={() => setDeleteId(row.id)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
-          >
-            <Trash2 size={13} />
-          </button>
-        </div>
-      ),
+      render: (row: unknown) => {
+        const service = row as Service;
+
+        return (
+          <div className="flex gap-1">
+            <button
+              onClick={() => openEdit(service)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-info hover:bg-info/10 transition-colors"
+            >
+              <Pencil size={13} />
+            </button>
+
+            <button
+              onClick={() => setDeleteId(service.id)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
+            >
+              <Trash2 size={13} />
+            </button>
+          </div>
+        );
+      },
     },
   ];
 

@@ -44,9 +44,7 @@ export default function ProfilePage() {
       formData.append("name", name);
       if (avatarFile) formData.append("avatar", avatarFile);
 
-      const res = await updateProfile(
-        formData as unknown as Record<string, string>,
-      ).unwrap();
+      const res = await updateProfile(formData).unwrap();
       if (res.success && user) {
         dispatch(
           setCredentials({
@@ -55,7 +53,7 @@ export default function ProfilePage() {
               name: res.data.name,
               avatar: res.data.avatar ?? user.avatar,
             },
-            token: localStorage.getItem("dash-token") ?? "",
+            accessToken: localStorage.getItem("dash-token") ?? "",
           }),
         );
         toast.success("Profile updated!");

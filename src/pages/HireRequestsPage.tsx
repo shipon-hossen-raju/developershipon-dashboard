@@ -65,41 +65,69 @@ export default function HireRequestsPage() {
       key: "name",
       label: "Client",
       sortable: true,
-      render: (row: HireRequest) => (
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-sm shrink-0">
-            {row.name[0].toUpperCase()}
+      render: (row: unknown) => {
+        const request = row as HireRequest;
+
+        return (
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-sm shrink-0">
+              {request.name[0].toUpperCase()}
+            </div>
+
+            <div>
+              <p className="font-semibold text-text-main dark:text-text-main-dark text-sm line-clamp-1">
+                {request.name}
+              </p>
+
+              <p className="text-xs text-text-muted line-clamp-1">
+                {request.email}
+              </p>
+            </div>
           </div>
-          <div>
-            <p className="font-semibold text-text-main dark:text-text-main-dark text-sm">
-              {row.name}
-            </p>
-            <p className="text-xs text-text-muted">{row.email}</p>
-          </div>
-        </div>
-      ),
+        );
+      },
     },
+
     {
       key: "service",
       label: "Service",
       sortable: true,
-      render: (row: HireRequest) => (
-        <p className="text-sm font-medium text-text-main dark:text-text-main-dark">
-          {row.service}
-        </p>
-      ),
+      render: (row: unknown) => {
+        const request = row as HireRequest;
+
+        return (
+          <p className="text-sm font-medium text-text-main dark:text-text-main-dark line-clamp-1">
+            {request.service}
+          </p>
+        );
+      },
     },
-    { key: "phoneNumber", label: "Phone" },
+
+    {
+      key: "phoneNumber",
+      label: "Phone",
+      render: (row: unknown) => {
+        const request = row as HireRequest;
+
+        return (
+          <span className="text-xs text-text-muted">{request.phoneNumber}</span>
+        );
+      },
+    },
+
     {
       key: "status",
       label: "Status",
-      render: (row: HireRequest) => {
-        const s = statusOpts.find((o) => o.value === row.status)!;
+      render: (row: unknown) => {
+        const request = row as HireRequest;
+
+        const s = statusOpts.find((o) => o.value === request.status);
+
         return (
           <select
-            value={row.status}
+            value={request.status}
             onChange={(e) =>
-              handleStatus(row.id, e.target.value as HireRequest["status"])
+              handleStatus(request.id, e.target.value as HireRequest["status"])
             }
             className="text-xs font-semibold px-2 py-1 rounded-full border-0 outline-none cursor-pointer"
             style={{ background: "transparent" }}
@@ -113,40 +141,51 @@ export default function HireRequestsPage() {
         );
       },
     },
+
     {
       key: "createdAt",
       label: "Date",
       sortable: true,
-      render: (row: HireRequest) => (
-        <span className="text-xs text-text-muted">
-          {new Date(row.createdAt).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-          })}
-        </span>
-      ),
+      render: (row: unknown) => {
+        const request = row as HireRequest;
+
+        return (
+          <span className="text-xs text-text-muted">
+            {new Date(request.createdAt).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </span>
+        );
+      },
     },
+
     {
       key: "actions",
       label: "",
       width: "80px",
-      render: (row: HireRequest) => (
-        <div className="flex gap-1">
-          <button
-            onClick={() => setViewing(row)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-primary hover:bg-primary/10 transition-colors"
-          >
-            <Eye size={13} />
-          </button>
-          <button
-            onClick={() => setDeleteId(row.id)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
-          >
-            <Trash2 size={13} />
-          </button>
-        </div>
-      ),
+      render: (row: unknown) => {
+        const request = row as HireRequest;
+
+        return (
+          <div className="flex gap-1">
+            <button
+              onClick={() => setViewing(request)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-primary hover:bg-primary/10 transition-colors"
+            >
+              <Eye size={13} />
+            </button>
+
+            <button
+              onClick={() => setDeleteId(request.id)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
+            >
+              <Trash2 size={13} />
+            </button>
+          </div>
+        );
+      },
     },
   ];
 

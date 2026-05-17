@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Mail, ArrowLeft, Loader2, CheckCircle } from "lucide-react";
-import toast from "react-hot-toast";
 import { useForgotPasswordMutation } from "@/store/api/auth.api";
+import { ArrowLeft, CheckCircle, Loader2, Mail } from "lucide-react";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 export default function ForgotPasswordPage() {
   const [forgotPassword, { isLoading }] = useForgotPasswordMutation();

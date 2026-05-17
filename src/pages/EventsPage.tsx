@@ -130,65 +130,111 @@ export default function EventsPage() {
       key: "title",
       label: "Event",
       sortable: true,
-      render: (row: PortfolioEvent) => (
-        <div className="flex items-center gap-2">
-          {row.highlight && (
-            <Star size={12} className="text-amber-500 shrink-0" />
-          )}
-          <div>
-            <p className="font-semibold text-text-main dark:text-text-main-dark text-sm">
-              {row.title}
-            </p>
-            <p className="text-xs text-text-muted">{row.organizer}</p>
+      render: (row: unknown) => {
+        const event = row as PortfolioEvent;
+
+        return (
+          <div className="flex items-center gap-2">
+            {event.highlight && (
+              <Star size={12} className="text-amber-500 shrink-0" />
+            )}
+
+            <div>
+              <p className="font-semibold text-text-main dark:text-text-main-dark text-sm line-clamp-1">
+                {event.title}
+              </p>
+
+              <p className="text-xs text-text-muted">{event.organizer}</p>
+            </div>
           </div>
-        </div>
-      ),
+        );
+      },
     },
+
     {
       key: "role",
       label: "Role",
-      render: (row: PortfolioEvent) => (
-        <Badge label={row.role} variant={roleColors[row.role] ?? "gray"} />
-      ),
+      render: (row: unknown) => {
+        const event = row as PortfolioEvent;
+
+        return (
+          <Badge
+            label={event.role}
+            variant={roleColors[event.role] ?? "gray"}
+          />
+        );
+      },
     },
-    { key: "location", label: "Location" },
-    { key: "date", label: "Date", sortable: true },
+
+    {
+      key: "location",
+      label: "Location",
+      render: (row: unknown) => {
+        const event = row as PortfolioEvent;
+
+        return (
+          <span className="text-xs text-text-muted">{event.location}</span>
+        );
+      },
+    },
+
+    {
+      key: "date",
+      label: "Date",
+      sortable: true,
+      render: (row: unknown) => {
+        const event = row as PortfolioEvent;
+
+        return <span className="text-xs text-text-muted">{event.date}</span>;
+      },
+    },
+
     {
       key: "tags",
       label: "Tags",
-      render: (row: PortfolioEvent) => (
-        <div className="flex flex-wrap gap-1">
-          {row.tags.slice(0, 3).map((t) => (
-            <span
-              key={t}
-              className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-      ),
+      render: (row: unknown) => {
+        const event = row as PortfolioEvent;
+
+        return (
+          <div className="flex flex-wrap gap-1">
+            {event.tags.slice(0, 3).map((t) => (
+              <span
+                key={t}
+                className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        );
+      },
     },
+
     {
       key: "actions",
       label: "",
       width: "80px",
-      render: (row: PortfolioEvent) => (
-        <div className="flex gap-1">
-          <button
-            onClick={() => openEdit(row)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-info hover:bg-info/10 transition-colors"
-          >
-            <Pencil size={13} />
-          </button>
-          <button
-            onClick={() => setDeleteId(row.id)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
-          >
-            <Trash2 size={13} />
-          </button>
-        </div>
-      ),
+      render: (row: unknown) => {
+        const event = row as PortfolioEvent;
+
+        return (
+          <div className="flex gap-1">
+            <button
+              onClick={() => openEdit(event)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-info hover:bg-info/10 transition-colors"
+            >
+              <Pencil size={13} />
+            </button>
+
+            <button
+              onClick={() => setDeleteId(event.id)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
+            >
+              <Trash2 size={13} />
+            </button>
+          </div>
+        );
+      },
     },
   ];
 

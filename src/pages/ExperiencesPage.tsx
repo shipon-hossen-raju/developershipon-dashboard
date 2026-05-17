@@ -107,69 +107,93 @@ export default function ExperiencesPage() {
       key: "companyName",
       label: "Company",
       sortable: true,
-      render: (row: Experience) => (
-        <div>
-          <p className="font-semibold text-text-main dark:text-text-main-dark text-sm">
-            {row.companyName}
-          </p>
-          {row.link && (
-            <a
-              href={row.link}
-              target="_blank"
-              rel="noreferrer"
-              className="text-xs text-primary hover:underline"
-            >
-              {row.link}
-            </a>
-          )}
-        </div>
-      ),
+      render: (row: unknown) => {
+        const experience = row as Experience;
+
+        return (
+          <div>
+            <p className="font-semibold text-text-main dark:text-text-main-dark text-sm line-clamp-1">
+              {experience.companyName}
+            </p>
+
+            {experience.link && (
+              <a
+                href={experience.link}
+                target="_blank"
+                rel="noreferrer"
+                className="text-xs text-primary hover:underline line-clamp-1"
+              >
+                {experience.link}
+              </a>
+            )}
+          </div>
+        );
+      },
     },
+
     {
       key: "jobTitle",
       label: "Role",
-      render: (row: Experience) => (
-        <Badge label={row.jobTitle} variant="blue" />
-      ),
+      render: (row: unknown) => {
+        const experience = row as Experience;
+
+        return <Badge label={experience.jobTitle} variant="blue" />;
+      },
     },
+
     {
       key: "dateLine",
       label: "Duration",
-      render: (row: Experience) => (
-        <span className="text-xs text-text-muted dark:text-text-muted-dark">
-          {fmtDate(row.startDate)} — {fmtDate(row.endDate)}
-        </span>
-      ),
+      render: (row: unknown) => {
+        const experience = row as Experience;
+
+        return (
+          <span className="text-xs text-text-muted dark:text-text-muted-dark">
+            {fmtDate(experience.startDate)} — {fmtDate(experience.endDate)}
+          </span>
+        );
+      },
     },
+
     {
       key: "description",
       label: "Description",
-      render: (row: Experience) => (
-        <p className="text-xs text-text-muted dark:text-text-muted-dark line-clamp-2 max-w-xs">
-          {row.description}
-        </p>
-      ),
+      render: (row: unknown) => {
+        const experience = row as Experience;
+
+        return (
+          <p className="text-xs text-text-muted dark:text-text-muted-dark line-clamp-2 max-w-xs">
+            {experience.description}
+          </p>
+        );
+      },
     },
+
     {
       key: "actions",
       label: "",
       width: "80px",
-      render: (row: Experience) => (
-        <div className="flex items-center gap-1">
-          <button
-            onClick={() => openEdit(row)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-info hover:bg-info/10 transition-colors"
-          >
-            <Pencil size={13} />
-          </button>
-          <button
-            onClick={() => setDeleteId(row.id)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
-          >
-            <Trash2 size={13} />
-          </button>
-        </div>
-      ),
+      render: (row: unknown) => {
+        const experience = row as Experience;
+
+        return (
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => openEdit(experience)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-info hover:bg-info/10 transition-colors"
+            >
+              <Pencil size={13} />
+            </button>
+
+            <button
+              onClick={() => setDeleteId(experience.id)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
+            >
+              <Trash2 size={13} />
+            </button>
+          </div>
+        );
+      },
     },
   ];
 

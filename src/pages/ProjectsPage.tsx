@@ -155,47 +155,71 @@ export default function ProjectsPage() {
       key: "title",
       label: "Project",
       sortable: true,
-      render: (row: Project) => (
-        <div className="flex items-center gap-3">
-          {row.featured && (
-            <Star size={13} className="text-amber-500 shrink-0" />
-          )}
-          <div>
-            <p className="font-semibold text-text-main dark:text-text-main-dark text-sm">
-              {row.title}
-            </p>
-            <p className="text-xs text-text-muted dark:text-text-muted-dark truncate max-w-[200px]">
-              {row.tagline}
-            </p>
+      render: (row: unknown) => {
+        const project = row as Project;
+
+        return (
+          <div className="flex items-center gap-3">
+            {project.featured && (
+              <Star size={13} className="text-amber-500 shrink-0" />
+            )}
+
+            <div>
+              <p className="font-semibold text-text-main dark:text-text-main-dark text-sm line-clamp-1">
+                {project.title}
+              </p>
+
+              <p className="text-xs text-text-muted dark:text-text-muted-dark truncate max-w-[200px]">
+                {project.tagline}
+              </p>
+            </div>
           </div>
-        </div>
-      ),
+        );
+      },
     },
+
     {
       key: "type",
       label: "Type",
-      render: (row: Project) => (
-        <Badge label={row.type} variant={typeVariant[row.type]} />
-      ),
+      render: (row: unknown) => {
+        const project = row as Project;
+
+        return (
+          <Badge label={project.type} variant={typeVariant[project.type]} />
+        );
+      },
     },
+
     {
       key: "status",
       label: "Status",
-      render: (row: Project) => (
-        <Badge label={row.status} variant={statusVariant[row.status]} dot />
-      ),
+      render: (row: unknown) => {
+        const project = row as Project;
+
+        return (
+          <Badge
+            label={project.status}
+            variant={statusVariant[project.status]}
+            dot
+          />
+        );
+      },
     },
+
     {
       key: "technologies",
       label: "Stack",
-      render: (row: Project) => (
-        <div className="flex flex-wrap gap-1">
-          {[
-            ...(row.technologies.frontend ?? []),
-            ...(row.technologies.backend ?? []),
-          ]
-            .slice(0, 3)
-            .map((t) => (
+      render: (row: unknown) => {
+        const project = row as Project;
+
+        const stack = [
+          ...(project.technologies.frontend ?? []),
+          ...(project.technologies.backend ?? []),
+        ];
+
+        return (
+          <div className="flex flex-wrap gap-1">
+            {stack.slice(0, 3).map((t) => (
               <span
                 key={t}
                 className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium"
@@ -203,55 +227,78 @@ export default function ProjectsPage() {
                 {t}
               </span>
             ))}
-          {[
-            ...(row.technologies.frontend ?? []),
-            ...(row.technologies.backend ?? []),
-          ].length > 3 && (
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-text-muted font-medium">
-              +more
-            </span>
-          )}
-        </div>
-      ),
+
+            {stack.length > 3 && (
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-text-muted font-medium">
+                +more
+              </span>
+            )}
+          </div>
+        );
+      },
     },
-    { key: "completedAt", label: "Completed", sortable: true },
+
+    {
+      key: "completedAt",
+      label: "Completed",
+      sortable: true,
+      render: (row: unknown) => {
+        const project = row as Project;
+
+        return (
+          <span className="text-xs text-text-muted">{project.completedAt}</span>
+        );
+      },
+    },
+
     {
       key: "actions",
       label: "Actions",
       width: "140px",
-      render: (row: Project) => (
-        <div className="flex items-center gap-1">
-          <button
-            onClick={() => toggleFeatured(row.id)}
-            title={row.featured ? "Unfeature" : "Feature"}
-            className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${row.featured ? "text-amber-500 bg-amber-50 dark:bg-amber-500/10" : "text-text-muted hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-500/10"}`}
-          >
-            <Star size={13} />
-          </button>
-          {row.liveUrl && (
-            <a
-              href={row.liveUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-primary hover:bg-primary/10 transition-colors"
+      render: (row: unknown) => {
+        const project = row as Project;
+
+        return (
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => toggleFeatured(project.id)}
+              title={project.featured ? "Unfeature" : "Feature"}
+              className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${
+                project.featured
+                  ? "text-amber-500 bg-amber-50 dark:bg-amber-500/10"
+                  : "text-text-muted hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-500/10"
+              }`}
             >
-              <ExternalLink size={13} />
-            </a>
-          )}
-          <button
-            onClick={() => openEdit(row)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-info hover:bg-info/10 transition-colors"
-          >
-            <Pencil size={13} />
-          </button>
-          <button
-            onClick={() => setDeleteId(row.id)}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
-          >
-            <Trash2 size={13} />
-          </button>
-        </div>
-      ),
+              <Star size={13} />
+            </button>
+
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-primary hover:bg-primary/10 transition-colors"
+              >
+                <ExternalLink size={13} />
+              </a>
+            )}
+
+            <button
+              onClick={() => openEdit(project)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-info hover:bg-info/10 transition-colors"
+            >
+              <Pencil size={13} />
+            </button>
+
+            <button
+              onClick={() => setDeleteId(project.id)}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-danger hover:bg-danger/10 transition-colors"
+            >
+              <Trash2 size={13} />
+            </button>
+          </div>
+        );
+      },
     },
   ];
 

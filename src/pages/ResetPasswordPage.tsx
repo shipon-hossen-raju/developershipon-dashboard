@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Lock, Eye, EyeOff, Loader2 } from "lucide-react";
-import toast from "react-hot-toast";
 import { useResetPasswordMutation } from "@/store/api/auth.api";
+import { Eye, EyeOff, Loader2, Lock } from "lucide-react";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 export default function ResetPasswordPage() {
   const navigate = useNavigate();
