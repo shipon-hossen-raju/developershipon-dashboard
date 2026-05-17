@@ -44,6 +44,7 @@ const emptyEv: EventFormData = {
   description: "",
   tags: [],
   highlight: false,
+  isActive: true,
 };
 
 export default function EventsPage() {
@@ -77,6 +78,7 @@ export default function EventsPage() {
       highlight: ev.highlight,
       image: ev.image ?? "",
       certificate: ev.certificate ?? "",
+      isActive: ev.isActive,
     });
     setModal({ open: true, mode: "edit", data: ev });
   };
@@ -309,11 +311,20 @@ export default function EventsPage() {
               onChange={(t) => setForm({ ...form, tags: t })}
             />
           </FormField>
-          <Switch
-            checked={form.highlight}
-            onChange={(v) => setForm({ ...form, highlight: v })}
-            label="Pin as featured event"
-          />
+          <div className="grid grid-cols-2 gap-4">
+            <Switch
+              checked={form.highlight}
+              onChange={(v) => setForm({ ...form, highlight: v })}
+              label="Pin as featured event"
+            />
+            {/* <FormField label="Active"> */}
+            <Switch
+              checked={form.isActive}
+              onChange={(v) => setForm({ ...form, isActive: v })}
+              label="Active"
+            />
+            {/* </FormField> */}
+          </div>
         </div>
       </Modal>
       <ConfirmDialog

@@ -1,7 +1,13 @@
 import { Pencil, Plus, Trash2, Wrench } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { FormField, Input, TagInput, Textarea } from "../components/forms";
+import {
+  FormField,
+  Input,
+  Switch,
+  TagInput,
+  Textarea,
+} from "../components/forms";
 import {
   ConfirmDialog,
   EmptyState,
@@ -15,10 +21,15 @@ import {
   useDeleteServiceMutation,
   useGetServicesQuery,
   useUpdateServiceMutation,
-} from "../store/api/endpoints";
+} from "../store/api/services.api";
 import type { Service, ServiceFormData } from "../types";
 
-const emptyForm: ServiceFormData = { title: "", description: "", rules: [] };
+const emptyForm: ServiceFormData = {
+  title: "",
+  description: "",
+  rules: [],
+  isActive: true,
+};
 
 export default function ServicesPage() {
   const { data, isLoading } = useGetServicesQuery();
@@ -40,7 +51,12 @@ export default function ServicesPage() {
     setModal({ open: true, mode: "create" });
   };
   const openEdit = (s: Service) => {
-    setForm({ title: s.title, description: s.description, rules: s.rules });
+    setForm({
+      title: s.title,
+      description: s.description,
+      rules: s.rules,
+      isActive: s.isActive,
+    });
     setModal({ open: true, mode: "edit", data: s });
   };
 
@@ -216,6 +232,13 @@ export default function ServicesPage() {
               tags={form.rules}
               onChange={(t) => setForm({ ...form, rules: t })}
               placeholder="React, Node.js, MongoDB..."
+            />
+          </FormField>
+          <FormField label="Active">
+            <Switch
+              checked={form.isActive}
+              onChange={(v) => setForm({ ...form, isActive: v })}
+              label="Active"
             />
           </FormField>
         </div>

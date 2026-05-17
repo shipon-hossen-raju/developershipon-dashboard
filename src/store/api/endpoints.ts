@@ -1,7 +1,5 @@
 import type {
   ApiResponse,
-  Blog,
-  BlogFormData,
   ContactMessage,
   DashboardStats,
   EventFormData,
@@ -9,24 +7,12 @@ import type {
   ExperienceFormData,
   HireRequest,
   PortfolioEvent,
-  Problem,
-  ProblemFormData,
   Project,
   ProjectFormData,
   Service,
   ServiceFormData,
 } from "../../types";
 import { baseApi } from "./baseApi";
-
-// ─── Dashboard ─────────────────────────────────────────────────────────────────
-export const dashboardApi = baseApi.injectEndpoints({
-  endpoints: (b) => ({
-    getDashboardStats: b.query<ApiResponse<DashboardStats>, void>({
-      query: () => "/dashboard/stats",
-      providesTags: ["Dashboard"],
-    }),
-  }),
-});
 
 // ─── Projects ─────────────────────────────────────────────────────────────────
 export const projectsApi = baseApi.injectEndpoints({
@@ -90,68 +76,6 @@ export const experiencesApi = baseApi.injectEndpoints({
     deleteExperience: b.mutation<ApiResponse<null>, string>({
       query: (id) => ({ url: `/experiences/${id}`, method: "DELETE" }),
       invalidatesTags: ["Experiences", "Dashboard"],
-    }),
-  }),
-});
-
-// ─── Services ─────────────────────────────────────────────────────────────────
-export const servicesApi = baseApi.injectEndpoints({
-  endpoints: (b) => ({
-    getServices: b.query<ApiResponse<Service[]>, void>({
-      query: () => "/services",
-      providesTags: ["Services"],
-    }),
-    createService: b.mutation<ApiResponse<Service>, ServiceFormData>({
-      query: (body) => ({ url: "/services", method: "POST", body }),
-      invalidatesTags: ["Services", "Dashboard"],
-    }),
-    updateService: b.mutation<
-      ApiResponse<Service>,
-      { id: string; data: Partial<ServiceFormData> }
-    >({
-      query: ({ id, data }) => ({
-        url: `/services/${id}`,
-        method: "PUT",
-        body: data,
-      }),
-      invalidatesTags: ["Services"],
-    }),
-    deleteService: b.mutation<ApiResponse<null>, string>({
-      query: (id) => ({ url: `/services/${id}`, method: "DELETE" }),
-      invalidatesTags: ["Services", "Dashboard"],
-    }),
-  }),
-});
-
-// ─── Blogs ────────────────────────────────────────────────────────────────────
-export const blogsApi = baseApi.injectEndpoints({
-  endpoints: (b) => ({
-    getBlogs: b.query<ApiResponse<Blog[]>, void>({
-      query: () => "/blogs",
-      providesTags: ["Blogs"],
-    }),
-    createBlog: b.mutation<ApiResponse<Blog>, BlogFormData>({
-      query: (body) => ({ url: "/blogs", method: "POST", body }),
-      invalidatesTags: ["Blogs", "Dashboard"],
-    }),
-    updateBlog: b.mutation<
-      ApiResponse<Blog>,
-      { id: string; data: Partial<BlogFormData> }
-    >({
-      query: ({ id, data }) => ({
-        url: `/blogs/${id}`,
-        method: "PUT",
-        body: data,
-      }),
-      invalidatesTags: ["Blogs"],
-    }),
-    deleteBlog: b.mutation<ApiResponse<null>, string>({
-      query: (id) => ({ url: `/blogs/${id}`, method: "DELETE" }),
-      invalidatesTags: ["Blogs", "Dashboard"],
-    }),
-    toggleBlogPublished: b.mutation<ApiResponse<Blog>, string>({
-      query: (id) => ({ url: `/blogs/${id}/publish`, method: "PATCH" }),
-      invalidatesTags: ["Blogs"],
     }),
   }),
 });
@@ -232,7 +156,7 @@ export const hireApi = baseApi.injectEndpoints({
 });
 
 // ─── Export all hooks ─────────────────────────────────────────────────────────
-export const { useGetDashboardStatsQuery } = dashboardApi;
+
 export const {
   useGetProjectsQuery,
   useCreateProjectMutation,
@@ -246,19 +170,7 @@ export const {
   useUpdateExperienceMutation,
   useDeleteExperienceMutation,
 } = experiencesApi;
-export const {
-  useGetServicesQuery,
-  useCreateServiceMutation,
-  useUpdateServiceMutation,
-  useDeleteServiceMutation,
-} = servicesApi;
-export const {
-  useGetBlogsQuery,
-  useCreateBlogMutation,
-  useUpdateBlogMutation,
-  useDeleteBlogMutation,
-  useToggleBlogPublishedMutation,
-} = blogsApi;
+
 export const {
   useGetEventsQuery,
   useCreateEventMutation,

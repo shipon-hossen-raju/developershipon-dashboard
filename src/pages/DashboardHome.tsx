@@ -26,11 +26,11 @@ import {
 import { PageLoader, Skeleton } from "../components/ui";
 import { useAppSelector } from "../hooks/redux";
 import {
-  useGetDashboardStatsQuery,
   useGetHireRequestsQuery,
   useGetMessagesQuery,
   useGetProjectsQuery,
 } from "../store/api/endpoints";
+import { useGetDashboardStatsQuery } from "@/store/api/dashboard.api";
 
 const PIE_COLORS = [
   "#198f51",
@@ -124,7 +124,7 @@ export default function DashboardHome() {
     },
     {
       label: "Problems Solved",
-      value: stats?.skills ?? 0,
+      value: stats?.problems ?? 0,
       icon: <Bug size={20} />,
       color: "bg-orange-500/10 text-orange-600 dark:text-orange-400",
       to: "/problems",

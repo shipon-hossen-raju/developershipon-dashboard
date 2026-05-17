@@ -47,11 +47,11 @@ const TYPE_OPTIONS = [
 
 const statusVariant = {
   completed: "green",
-  "in progress": "amber",
+  in_progress: "amber",
   maintained: "blue",
 } as const;
 const typeVariant = {
-  "full stack": "blue",
+  full_stack: "blue",
   backend: "amber",
   frontend: "purple",
 } as const;
@@ -60,7 +60,7 @@ const emptyForm: ProjectFormData = {
   title: "",
   tagline: "",
   description: "",
-  type: "full stack",
+  type: "full_stack",
   image: "",
   liveUrl: "",
   githubUrl: "",
@@ -71,6 +71,7 @@ const emptyForm: ProjectFormData = {
   keyFeatures: [],
   challenges: "",
   featured: false,
+  isActive: true,
 };
 
 export default function ProjectsPage() {
@@ -114,6 +115,7 @@ export default function ProjectsPage() {
       keyFeatures: p.keyFeatures,
       challenges: p.challenges ?? "",
       featured: p.featured,
+      isActive: p.isActive,
     });
     setModal({ open: true, mode: "edit", data: p });
   };
@@ -453,6 +455,13 @@ export default function ProjectsPage() {
               checked={form.featured}
               onChange={(v) => setForm({ ...form, featured: v })}
               label="Show as featured project"
+            />
+          </FormField>
+          <FormField label="Active">
+            <Switch
+              checked={form.isActive}
+              onChange={(v) => setForm({ ...form, isActive: v })}
+              label="Active"
             />
           </FormField>
         </div>

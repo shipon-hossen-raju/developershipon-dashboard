@@ -2,7 +2,7 @@
 import { Briefcase, Pencil, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { FormField, Input, Textarea } from "../components/forms";
+import { FormField, Input, Switch, Textarea } from "../components/forms";
 import {
   Badge,
   ConfirmDialog,
@@ -25,7 +25,9 @@ const emptyExp: ExperienceFormData = {
   jobTitle: "",
   description: "",
   link: "",
-  dateLine: { start: "", end: "" },
+  startDate: "",
+  endDate: "",
+  isActive: true,
 };
 
 export default function ExperiencesPage() {
@@ -53,7 +55,9 @@ export default function ExperiencesPage() {
       jobTitle: e.jobTitle,
       description: e.description,
       link: e.link ?? "",
-      dateLine: e.dateLine,
+      endDate: e.endDate,
+      startDate: e.startDate,
+      isActive: e.isActive,
     });
     setModal({ open: true, mode: "edit", data: e });
   };
@@ -133,7 +137,7 @@ export default function ExperiencesPage() {
       label: "Duration",
       render: (row: Experience) => (
         <span className="text-xs text-text-muted dark:text-text-muted-dark">
-          {fmtDate(row.dateLine.start)} — {fmtDate(row.dateLine.end)}
+          {fmtDate(row.startDate)} — {fmtDate(row.endDate)}
         </span>
       ),
     },
@@ -254,11 +258,11 @@ export default function ExperiencesPage() {
             <FormField label="Start Date">
               <Input
                 type="date"
-                value={form.dateLine.start?.toString().slice(0, 10)}
+                value={form.startDate?.toString().slice(0, 10)}
                 onChange={(e) =>
                   setForm({
                     ...form,
-                    dateLine: { ...form.dateLine, start: e.target.value },
+                    startDate: e.target.value,
                   })
                 }
               />
@@ -266,11 +270,11 @@ export default function ExperiencesPage() {
             <FormField label='End Date (or "current")'>
               <Input
                 placeholder='YYYY-MM-DD or "current"'
-                value={form.dateLine.end?.toString()}
+                value={form.endDate?.toString()}
                 onChange={(e) =>
                   setForm({
                     ...form,
-                    dateLine: { ...form.dateLine, end: e.target.value },
+                    endDate: e.target.value,
                   })
                 }
               />
@@ -284,6 +288,14 @@ export default function ExperiencesPage() {
                 setForm({ ...form, description: e.target.value })
               }
               rows={4}
+            />
+          </FormField>
+
+          <FormField label="Active">
+            <Switch
+              checked={form.isActive}
+              onChange={(v) => setForm({ ...form, isActive: v })}
+              label="Active"
             />
           </FormField>
         </div>

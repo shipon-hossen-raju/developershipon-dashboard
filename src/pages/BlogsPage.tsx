@@ -23,7 +23,7 @@ import {
   useGetBlogsQuery,
   useToggleBlogPublishedMutation,
   useUpdateBlogMutation,
-} from "../store/api/endpoints";
+} from "../store/api/blogs.api";
 import type { Blog, BlogFormData } from "../types";
 
 const empty: BlogFormData = {

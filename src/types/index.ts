@@ -40,13 +40,13 @@ export interface Project {
   title: string;
   tagline: string;
   description: string;
-  type: "full stack" | "backend" | "frontend";
+  type: "full_stack" | "backend" | "frontend";
   image?: string;
   liveUrl?: string;
   githubUrl?: string;
   duration: string;
   completedAt: string;
-  status: "completed" | "in progress" | "maintained";
+  status: "completed" | "in_progress" | "maintained";
   technologies: {
     frontend?: string[];
     backend?: string[];
@@ -58,6 +58,7 @@ export interface Project {
   featured: boolean;
   createdAt?: string;
   updatedAt?: string;
+  isActive: boolean;
 }
 
 export type ProjectFormData = Omit<Project, "id" | "createdAt" | "updatedAt">;
@@ -66,17 +67,21 @@ export type ProjectFormData = Omit<Project, "id" | "createdAt" | "updatedAt">;
 export interface Experience {
   id: string;
   companyName: string;
-  link?: string;
+  link: string;
   jobTitle: string;
   description: string;
-  dateLine: {
-    start: string;
-    end: string; // "current" or ISO string
-  };
-  createdAt?: string;
+  startDate: string;
+  endDate: string;
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+  isActive: boolean;
 }
 
-export type ExperienceFormData = Omit<Experience, "id" | "createdAt">;
+export type ExperienceFormData = Omit<
+  Experience,
+  "id" | "createdAt" | "updatedAt" | "order"
+>;
 
 // ─── Service ───────────────────────────────────────────────────────────────────
 export interface Service {
@@ -86,6 +91,7 @@ export interface Service {
   rules: string[];
   icon?: string;
   createdAt?: string;
+  isActive: boolean;
 }
 
 export type ServiceFormData = Omit<Service, "id" | "createdAt">;
@@ -123,25 +129,13 @@ export interface PortfolioEvent {
   certificate?: string;
   highlight: boolean;
   createdAt?: string;
+  updatedAt?: string;
+  isActive: boolean;
 }
 
 export type EventFormData = Omit<PortfolioEvent, "id" | "createdAt">;
 
 // ─── Problem ──────────────────────────────────────────────────────────────────
-// export interface Problem {
-//   id: string;
-//   title: string;
-//   platform: string;
-//   difficulty: "easy" | "medium" | "hard";
-//   tags: string[];
-//   problem: string;
-//   solution: string;
-//   codeSnippet?: string;
-//   solvedAt: string;
-//   link?: string;
-//   createdAt?: string;
-//   isActive: boolean;
-// }
 export interface Problem {
   id: string;
   title: string;
@@ -159,7 +153,10 @@ export interface Problem {
   isActive: boolean;
 }
 
-export type ProblemFormData = Omit<Problem, "id" | "createdAt" | "order" | "updatedAt">;
+export type ProblemFormData = Omit<
+  Problem,
+  "id" | "createdAt" | "order" | "updatedAt"
+>;
 
 // ─── Skill ────────────────────────────────────────────────────────────────────
 export interface Skill {
@@ -218,6 +215,7 @@ export interface DashboardStats {
   blogs: number;
   events: number;
   skills: number;
+  problems: number;
   messages: number;
   unreadMessages: number;
   hireRequests: number;
